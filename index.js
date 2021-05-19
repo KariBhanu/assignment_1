@@ -44,6 +44,7 @@ data.then((data)=>{
     let regionName = groupBy(battles, 'region');
     let attackerOutcome = groupBy(battles,"attacker_outcome");
     let battleType = groupBy(battles,'battle_type');
+    //above are objects formed by grouping on their key
     most_active = {...most_active,
                     'attacker_king':find(activeKing,'attacker_king'),
                     'defender_king':find(defenderKing,'defender_king'),
@@ -65,13 +66,18 @@ data.then((data)=>{
     let sum = battles.reduce((acc,val)=>{
         return acc = acc + val.defender_size;
     },0);
+    let battleNames = Object.keys(battleType);
+    battleNames = battleNames.filter((val)=>{
+        return val != "";
+    })
+    console.log(battleNames);
     result = {...result,
                 'most_active':most_active,
                 'attacker_outcome':{
                     'win':attackerOutcome['win'].length,
                     'loss':attackerOutcome['loss'].length
                 },
-                'battle_type':Object.keys(battleType),
+                'battle_type':battleNames,
                 'defender_size':{
                     'average':Math.ceil(sum/battles.length),
                     'min':Math.min(...defenderSize),
@@ -79,11 +85,21 @@ data.then((data)=>{
                 }
             }
     console.log(result);
-
-});
+}).then(()=>{
+    document.getElementById('attacker_king').innerHTML = result.most_active.attacker_king;
+    document.getElementById('defender_king').innerHTML = result.most_active.defender_king;
+    document.getElementById('region').innerHTML = result.most_active.region;
+    document.getElementById('battle').innerHTML = result.most_active.name;
+    document.getElementById('win').innerHTML = result.attacker_outcome.win;
+    document.getElementById('loss').innerHTML = result.attacker_outcome.loss;
+    document.getElementById('typeofBattle').innerHTML = result.battle_type;
+    document.getElementById('avg').innerHTML = result.defender_size.average;
+    document.getElementById('max').innerHTML = result.defender_size.max;
+    document.getElementById('min').innerHTML = result.defender_size.min;
+})
 data.catch(()=>{
     console.log("error");
 });
 
 
- 
+

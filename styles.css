@@ -1,0 +1,13 @@
+.container{
+    width: 75%;
+}
+.big-container{
+    /* background: linear-gradient(to right,#00B1D2FF,#FDDB27FF) !important; */
+    background-color: #777;
+}
+h2{color:white;}
+h3{
+    padding: 10px;
+    color:white;
+    background-color: #777;
+}
